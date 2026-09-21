@@ -100,17 +100,15 @@ export const SessionsPage: React.FC<SessionsPageProps> = ({ onNavigate, user }) 
 
     setIsSubmitting(true)
     try {
-      await createSession(
-        {
-          group_id: newGroupId,
-          title: newTitle,
-          session_date: newDate,
-          start_time: newStartTime,
-          end_time: newEndTime,
-          agenda: newAgenda,
-        },
-        user.id
-      )
+      await createSession({
+        group_id: newGroupId,
+        organizer_id: user.id,
+        title: newTitle,
+        session_date: newDate,
+        start_time: newStartTime,
+        end_time: newEndTime,
+        description: newAgenda,
+      })
 
       showToast(`Session "${newTitle}" scheduled successfully!`)
       setIsScheduleModalOpen(false)
@@ -244,9 +242,9 @@ export const SessionsPage: React.FC<SessionsPageProps> = ({ onNavigate, user }) 
                     <p className="text-xs font-semibold text-indigo-700 mb-3">{s.group.name}</p>
                   )}
 
-                  {s.agenda && (
+                  {s.description && (
                     <p className="text-xs text-slate-500 leading-relaxed mb-4 bg-slate-50 p-3 rounded-xl">
-                      <strong className="text-slate-700">Agenda:</strong> {s.agenda}
+                      <strong className="text-slate-700">Agenda:</strong> {s.description}
                     </p>
                   )}
                 </div>
@@ -316,7 +314,7 @@ export const SessionsPage: React.FC<SessionsPageProps> = ({ onNavigate, user }) 
                   </div>
                   <h4 className="text-xl font-extrabold text-white">{activeSessionRoom.title}</h4>
                   <p className="text-xs text-slate-400 leading-relaxed">
-                    {activeSessionRoom.agenda || 'Collaborative session agenda and shared study materials.'}
+                    {activeSessionRoom.description || 'Collaborative session agenda and shared study materials.'}
                   </p>
                 </div>
 
